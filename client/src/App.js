@@ -1,22 +1,27 @@
 import React, { Component } from 'react';
 import './App.css';
+import axios from 'axios'
 
 class App extends Component {
   state = {cities: []}
 
-  async componentDidMount() {
-    const response = await fetch('/cities')
-    const cities   = await response.json()
-
-    this.setState({cities: cities})
+  componentDidMount() {
+    var that = this
+    axios.all([
+      axios.get('/cities')
+    ])
+    .then(axios.spread(function (response) {
+      that.setState({cities: response.data})
+    })).catch(error => console.log(error))
   }
 
   render() {
     return (
       <div>
+        <p>Hello my app:</p>
         <ul>
           {this.state.cities.map( city => {
-            return <li key={city.name}> <b>{city.name}</b>: {city.population}</li>
+            return <li key={city.name}> <b>{city.numbers}</b>: test</li>
           })}
         </ul>
       </div>

@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser'
 import express from 'express'
 import path from 'path'
+import pool from './connection'
 const app = express()
 
 app.use(bodyParser.json())
@@ -10,6 +11,41 @@ const router = express.Router()
 
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))
 app.use(staticFiles)
+
+router.get('/api/players', function(req, res) {
+  pool.getConnection(function(err, connection) {
+      if (err) throw err // not connected!
+    
+      // Use the connection
+      connection.query('SELECT * FROM players', function (error, results, fields) {
+        // When done with the connection, release it.
+        connection.release()
+    
+        // Handle error after the release.
+        if (error) throw error
+
+        return res.json(results)
+        // Don't use the connection here, it has been returned to the pool.
+      })
+    })
+})
+router.get('/api/drawings', function(req, res) {
+  pool.getConnection(function(err, connection) {
+      if (err) throw err // not connected!
+    
+      // Use the connection
+      connection.query('SELECT * FROM drawings', function (error, results, fields) {
+        // When done with the connection, release it.
+        connection.release()
+    
+        // Handle error after the release.
+        if (error) throw error
+
+        return res.json(results)
+        // Don't use the connection here, it has been returned to the pool.
+      })
+    })
+})
 
 router.get('/cities', (req, res) => {
   const cities = [
