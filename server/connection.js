@@ -15,7 +15,7 @@ var development = {
   database: 'lotto'
 }
 var params = process.env.NODE_ENV === 'development' ? development : production
-console.log(params)
+
 var pool  = mysql.createPool(params);
 
 export default pool
