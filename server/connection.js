@@ -3,9 +3,9 @@ import mysql from 'mysql'
 var production = {
   connectionLimit : 10,
   host     : 'eu-cdbr-west-02.cleardb.net',
-  user     : 'b68198d9af1100',
-  password : '8361e556',
-  database: 'heroku_2eddafca139694a'
+  user     : 'b50826c6f33468',
+  password : '552452bd',
+  database: 'heroku_d8e47286581e2ab'
 }
 var development = {
   connectionLimit : 10,
