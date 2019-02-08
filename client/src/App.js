@@ -76,8 +76,8 @@ class App extends Component {
   componentDidMount() {
     var that = this
     axios.all([
-      axios.get('api/players'),
-      axios.get('api/drawings')
+      axios.get('/api/players'),
+      axios.get('/api/drawings')
     ])
     .then(axios.spread(function (players, drawings) {
       that.props.setDrawings(
