@@ -23,7 +23,7 @@ router.get('/api/players', function(req, res) {
     
         // Handle error after the release.
         if (error) throw error
-
+        res.set('X-Total-Count', results.length)
         return res.json(results)
         // Don't use the connection here, it has been returned to the pool.
       })
@@ -40,7 +40,8 @@ router.get('/api/drawings', function(req, res) {
     
         // Handle error after the release.
         if (error) throw error
-
+        
+        res.set('X-Total-Count', results.length)
         return res.json(results)
         // Don't use the connection here, it has been returned to the pool.
       })

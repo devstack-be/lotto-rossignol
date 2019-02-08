@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next'
-import { Badge, Alert } from 'react-bootstrap'
+import { Badge, Alert, Container } from 'react-bootstrap'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
+import Navb from './Navb'
 
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 
@@ -60,23 +61,26 @@ class PlayerList extends Component {
             order: 'asc'
         }];
         return (
-            <div>
-                {result.win && (
-                    <Alert variant="success" dismissible className="text-center mt-2">                 
-                        <WinPlayers best={result.players}/>
-                    </Alert> 
-                )}
-                {!result.win && (
-                    <Alert variant="primary" dismissible className="text-center mt-2">                 
-                        <BestPlayers best={bestsPlayersATM}/>
-                    </Alert>               
-                )}
-                <BootstrapTable bootstrap4 keyField='id' data={data} columns={columns}
-                    defaultSorted={defaultSorted}
-                    pagination={paginationFactory({sizePerPage: 5})}
-                    filter={filterFactory()}
-                />
-            </div>
+            <Container fluid="true">
+            <Navb/>
+                <div>
+                    {result.win && (
+                        <Alert variant="success" dismissible className="text-center mt-2">                 
+                            <WinPlayers best={result.players}/>
+                        </Alert> 
+                    )}
+                    {!result.win && (
+                        <Alert variant="primary" dismissible className="text-center mt-2">                 
+                            <BestPlayers best={bestsPlayersATM}/>
+                        </Alert>               
+                    )}
+                    <BootstrapTable bootstrap4 keyField='id' data={data} columns={columns}
+                        defaultSorted={defaultSorted}
+                        pagination={paginationFactory({sizePerPage: 5})}
+                        filter={filterFactory()}
+                    />
+                </div>
+            </Container>
         )
     }
 }

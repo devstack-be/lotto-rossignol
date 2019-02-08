@@ -1,8 +1,11 @@
 import React from 'react'
-import { Card } from 'react-bootstrap'
+import { Card, Container } from 'react-bootstrap'
+import Navb from './Navb'
 
 const About = () => {
     return (
+        <Container fluid="true">
+        <Navb/>
         <Card className="text-center">
             <Card.Header>Lotto Rossignol</Card.Header>
             <Card.Body>
@@ -12,6 +15,7 @@ const About = () => {
                 </Card.Text>
             </Card.Body>
         </Card>
+        </Container>
     )
 }
 

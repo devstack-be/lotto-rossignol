@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { Container } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import axios from 'axios'
 
-import Navb from './components/Navb'
 import PlayerList from './components/PlayerList'
 import drawingList from './components/DrawingList'
 import About from './components/About'
+import Admin from'./components/Admin/Admin'
 
 import { setDrawings } from './actions/drawingActions'
 import { setPlayers, setBestsPlayersATM } from './actions/playerActions'
@@ -99,14 +98,12 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Container fluid="true">
-          <Navb/>
           <Switch>
             <Route exact path='/' component={PlayerList}/>
-            <Route path='/drawings' component={drawingList}/>
-            <Route path='/about' component={About} />
+            <Route exact path='/drawings' component={drawingList}/>
+            <Route exact path='/about' component={About} />
+            <Route path='/admin' component={Admin} />
           </Switch>
-        </Container>
       </BrowserRouter>
     );
   }

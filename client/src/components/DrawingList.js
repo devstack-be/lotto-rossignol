@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Table, Badge, Alert } from 'react-bootstrap'
+import { Table, Badge, Alert, Container } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import Navb from './Navb'
 
 class DrawingList extends Component {
     generateJsDate(date){
@@ -37,7 +38,10 @@ class DrawingList extends Component {
                 <Alert className="text-center mt-2" variant="primary">Aucun tirage a afficher pour le moment</Alert>
             )
         return (
+            <Container fluid="true">
+            <Navb/>
             <div className="center">{drawingList}</div>
+            </Container>
         )
     }
 }

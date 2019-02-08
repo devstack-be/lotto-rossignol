@@ -13,6 +13,9 @@ const Navb = () => {
             <Nav.Link as={RouterNavLink} exact={true} to="/drawings" >Tirages</Nav.Link>
             <Nav.Link as={RouterNavLink} exact={true} to="/about">A propos</Nav.Link>
           </Nav>
+          <Nav>
+            <Nav.Link  as={RouterNavLink} exact={true} to="/admin">Admin</Nav.Link>
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
     )
