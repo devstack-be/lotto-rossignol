@@ -12,6 +12,7 @@ const router = express.Router()
 const staticFiles = express.static(path.join(__dirname, '../../client/build'))
 app.use(staticFiles)
 
+// GET ALL
 router.get('/api/players', function(req, res) {
   pool.getConnection(function(err, connection) {
       if (err) throw err // not connected!
@@ -29,6 +30,7 @@ router.get('/api/players', function(req, res) {
       })
     })
 })
+// GET ALL
 router.get('/api/drawings', function(req, res) {
   pool.getConnection(function(err, connection) {
       if (err) throw err // not connected!
@@ -40,23 +42,92 @@ router.get('/api/drawings', function(req, res) {
     
         // Handle error after the release.
         if (error) throw error
-        
+
         res.set('X-Total-Count', results.length)
         return res.json(results)
         // Don't use the connection here, it has been returned to the pool.
       })
     })
 })
-
-router.get('/cities', (req, res) => {
-  const cities = [
-    {name: 'New York City', population: 8175133},
-    {name: 'Los Angeles',   population: 3792621},
-    {name: 'Chicago',       population: 2695598}
-  ]
-  res.json(cities)
+//INSERT
+router.post('/api/players', function(req, res) {
+  pool.getConnection(function(err, connection) {
+    if (err) throw err // not connected!
+    let data = [[req.body.name,req.body.numbers]];
+    // Use the connection
+    connection.query("INSERT INTO players (name,numbers) VALUES ?", [data], function (error, results, fields) {
+          // Handle error after the release.
+      if (error) throw error
+      connection.query('SELECT * FROM players WHERE id = '+results.insertId, function (error, results, fields) {
+        // When done with the connection, release it.
+        connection.release()
+        // Handle error after the release.
+        if (error) throw error
+        return res.json(results[0])
+        // Don't use the connection here, it has been returned to the pool.
+      })
+    })
+  })
 })
-
+// DELETE
+router.delete('/api/players/:id', function(req, res) {
+  pool.getConnection(function(err, connection) {
+      if (err) throw err // not connected!
+      // Use the connection
+      connection.query('DELETE FROM players WHERE id = '+req.params.id, function (error, results, fields) {
+        // When done with the connection, release it.
+        connection.release()
+    
+        // Handle error after the release.
+        if (error) throw error
+        
+        return res.json(results)
+        // Don't use the connection here, it has been returned to the pool.
+      })
+    })
+})
+//GET ONE
+router.get('/api/players/:id', function(req, res) {
+  pool.getConnection(function(err, connection) {
+      if (err) throw err // not connected!
+      // Use the connection
+      connection.query('SELECT * FROM players WHERE id = '+req.params.id, function (error, results, fields) {
+        // When done with the connection, release it.
+        connection.release()
+    
+        // Handle error after the release.
+        if (error) throw error
+        return res.json(results[0])
+        // Don't use the connection here, it has been returned to the pool.
+      })
+    })
+})
+//UPDATE
+router.put('/api/players/:id', function(req, res) {
+  pool.getConnection(function(err, connection) {
+      if (err) throw err // not connected!
+      let sql = `UPDATE players
+           SET name = ?, numbers = ?
+           WHERE id = ?`;
+ 
+      let data = [req.body.name,req.body.numbers,req.params.id];
+      // Use the connection
+      connection.query(sql, data, function (error, results, fields) {
+            // Handle error after the release.
+        if (error) throw error
+        connection.query('SELECT * FROM players WHERE id = '+req.params.id, function (error, results, fields) {
+          // When done with the connection, release it.
+          connection.release()
+      
+          // Handle error after the release.
+          if (error) throw error
+          return res.json(results[0])
+          // Don't use the connection here, it has been returned to the pool.
+        })
+        // Don't use the connection here, it has been returned to the pool.
+      })
+    })
+})
 app.use(router)
 
 // any routes not picked up by the server api will be handled by the react router
