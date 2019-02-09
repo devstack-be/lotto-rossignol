@@ -15,15 +15,17 @@ app.use(staticFiles)
 // GET ALL
 router.get('/api/players', function(req, res) {
   pool.getConnection(function(err, connection) {
-      if (err) throw err // not connected!
+      if (err) {
+        console.log(err)
+        return
+      }
     
       // Use the connection
       connection.query('SELECT * FROM players', function (error, results, fields) {
-        // When done with the connection, release it.
         connection.release()
-    
         // Handle error after the release.
         if (error) throw error
+
         res.set('X-Total-Count', results.length)
         return res.json(results)
         // Don't use the connection here, it has been returned to the pool.
@@ -33,15 +35,16 @@ router.get('/api/players', function(req, res) {
 // GET ALL
 router.get('/api/drawings', function(req, res) {
   pool.getConnection(function(err, connection) {
-      if (err) throw err // not connected!
+      if (err) {
+        console.log(err)
+        return
+      }
     
       // Use the connection
       connection.query('SELECT * FROM drawings', function (error, results, fields) {
-        // When done with the connection, release it.
         connection.release()
-    
         // Handle error after the release.
-        if (error) throw error
+          if (error) throw error
 
         res.set('X-Total-Count', results.length)
         return res.json(results)
@@ -52,7 +55,11 @@ router.get('/api/drawings', function(req, res) {
 //INSERT
 router.post('/api/players', function(req, res) {
   pool.getConnection(function(err, connection) {
-    if (err) throw err // not connected!
+    if (err) {
+      console.log(err)
+      return
+    }
+
     let data = [[req.body.name,req.body.numbers]];
     // Use the connection
     connection.query("INSERT INTO players (name,numbers) VALUES ?", [data], function (error, results, fields) {
@@ -72,7 +79,10 @@ router.post('/api/players', function(req, res) {
 // DELETE
 router.delete('/api/players/:id', function(req, res) {
   pool.getConnection(function(err, connection) {
-      if (err) throw err // not connected!
+      if (err) {
+        console.log(err)
+        return
+      }
       // Use the connection
       connection.query('DELETE FROM players WHERE id = '+req.params.id, function (error, results, fields) {
         // When done with the connection, release it.
@@ -89,7 +99,10 @@ router.delete('/api/players/:id', function(req, res) {
 //GET ONE
 router.get('/api/players/:id', function(req, res) {
   pool.getConnection(function(err, connection) {
-      if (err) throw err // not connected!
+      if (err) {
+        console.log(err)
+        return
+      }
       // Use the connection
       connection.query('SELECT * FROM players WHERE id = '+req.params.id, function (error, results, fields) {
         // When done with the connection, release it.
@@ -105,7 +118,10 @@ router.get('/api/players/:id', function(req, res) {
 //UPDATE
 router.put('/api/players/:id', function(req, res) {
   pool.getConnection(function(err, connection) {
-      if (err) throw err // not connected!
+      if (err) {
+        console.log(err)
+        return
+      } // not connected!
       let sql = `UPDATE players
            SET name = ?, numbers = ?
            WHERE id = ?`;
