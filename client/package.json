@@ -12,6 +12,7 @@
     "prop-types": "^15.6.2",
     "ra-data-json-server": "^2.7.0",
     "ra-data-simple-rest": "^2.7.0",
+    "ra-language-french": "^2.7.0",
     "react": "^16.8.1",
     "react-admin": "^2.7.0",
     "react-bootstrap": "^1.0.0-beta.5",
