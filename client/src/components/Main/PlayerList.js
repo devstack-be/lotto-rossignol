@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import BootstrapTable from 'react-bootstrap-table-next'
-import { Badge, Alert, Container } from 'react-bootstrap'
+import { Badge, Alert } from 'react-bootstrap'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter'
-import Navb from './Navb'
 
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 
@@ -55,14 +54,12 @@ class PlayerList extends Component {
             text: 'Manquants',
             sort: true
             }
-        ];
+        ]
         const defaultSorted = [{
             dataField: 'missing',
             order: 'asc'
-        }];
+        }]
         return (
-            <Container fluid="true">
-            <Navb/>
                 <div>
                     {result.win && (
                         <Alert variant="success" dismissible className="text-center mt-2">                 
@@ -80,7 +77,6 @@ class PlayerList extends Component {
                         filter={filterFactory()}
                     />
                 </div>
-            </Container>
         )
     }
 }
@@ -96,7 +92,7 @@ const mapStateToProps = (state) => {
 
 function BestPlayers(props) {
     if (!props.best || props.best.length === 0) {
-      return 'Chargement...';
+      return 'Chargement...'
     }
     if(props.best.length > 1) {
         return (
@@ -111,19 +107,19 @@ function BestPlayers(props) {
                 </strong>
                 &nbsp;avec <strong>{props.best[0].missing}</strong> numéros manquants.
             </p>
-        );
+        )
     } else {
         return (
             <p>Actuellement, le meilleur joueur est: <strong>{props.best[0].name}</strong>
             &nbsp;avec <strong>{props.best[0].missing}</strong> numéros manquants.
             </p>
-        );
+        )
     }
 }
 
 function WinPlayers(props) {
     if (!props.best || props.best.length === 0) {
-      return 'Chargement...';
+      return 'Chargement...'
     }
     if(props.best.length > 1) {
         return (
@@ -139,7 +135,7 @@ function WinPlayers(props) {
                 </strong>
                 &nbsp;ont gagné!
             </p>
-        );
+        )
     } else {
         return (
             <p>
@@ -147,8 +143,8 @@ function WinPlayers(props) {
             <strong>{props.best[0].name}</strong>
             &nbsp;a gagné!
             </p>
-        );
+        )
     }
 }
   
-export default connect(mapStateToProps)(PlayerList);
+export default connect(mapStateToProps)(PlayerList)
