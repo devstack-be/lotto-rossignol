@@ -8,6 +8,9 @@ import RestApi from 'ra-data-json-server'
 import UserIcon from '@material-ui/icons/Person'
 import './Admin.css'
 import frenchMessages from 'ra-language-french';
+import createHistory from 'history/createMemoryHistory';
+
+const history = createHistory();
 
 const messages = {
     fr: frenchMessages
@@ -17,7 +20,7 @@ const i18nProvider = locale => messages[locale];
 const dataProvider = RestApi('api')
 
 const Admine = () => (
-    <Admin locale="fr" i18nProvider={i18nProvider} authProvider={authProvider} dashboard={Dashboard} dataProvider={dataProvider}>
+    <Admin history={history} locale="fr" i18nProvider={i18nProvider} authProvider={authProvider} dashboard={Dashboard} dataProvider={dataProvider}>
         <Resource options={{ label: 'Joueurs' }} name="players" list={AdminPlayerList} edit={PlayerEdit} create={PlayerCreate} icon={UserIcon}/>
     </Admin>
 )
