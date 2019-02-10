@@ -17,7 +17,7 @@ const messages = {
 }
 const i18nProvider = locale => messages[locale];
 
-const dataProvider = RestApi('api')
+const dataProvider = RestApi('/api')
 
 const Admine = () => (
     <Admin history={history} locale="fr" i18nProvider={i18nProvider} authProvider={authProvider} dashboard={Dashboard} dataProvider={dataProvider}>
