@@ -43,20 +43,24 @@ class Main extends Component {
       setBestPlayersAndResult(players){
         let bestPlayers = []
         let isWin = false
-    
-        const theBestPlayer = players.reduce((oldest, player) => {
-          return oldest.missing < player.missing ? oldest : player
-        }, {})
-        bestPlayers.push(theBestPlayer)
-    
-        players.filter(player => {
-          if(theBestPlayer.missing === player.missing && theBestPlayer.id !== player.id)
-            bestPlayers.push(player)
-          return true
-        })
-    
-        if(theBestPlayer.missing === 0)
-          isWin = true
+        
+        if(players.length !== 0) {
+          const theBestPlayer = players.reduce((oldest, player) => {
+            return oldest.missing < player.missing ? oldest : player
+          }, {})
+
+          bestPlayers.push(theBestPlayer)
+      
+          players.filter(player => {
+            if(theBestPlayer.missing === player.missing && theBestPlayer.id !== player.id)
+              bestPlayers.push(player)
+            return true
+          })
+
+          if(theBestPlayer.missing === 0)
+            isWin = true
+        }
+  
         let result = {win: isWin, players: bestPlayers}
     
         this.props.setBestsPlayersATM(

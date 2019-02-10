@@ -92,8 +92,9 @@ const mapStateToProps = (state) => {
 
 function BestPlayers(props) {
     if (!props.best || props.best.length === 0) {
-      return 'Chargement...'
+      return "Il n'y a aucun joueur pour le moment"
     }
+
     if(props.best.length > 1) {
         return (
             <p>Actuellement, les meilleurs joueurs sont:

@@ -7,8 +7,15 @@
 }
 .react-bootstrap-table-page-btns-ul {
     float: right;
-    margin-top: 0px; }
+    margin-top: 0px; 
+}
   
 .react-bootstrap-table-pagination-list-hidden {
-    display: none; }
-  
+    display: none; 
+}
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact; 
+    }
+}
