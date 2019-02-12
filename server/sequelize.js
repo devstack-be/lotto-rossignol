@@ -9,11 +9,8 @@ var sequelize
 config['define'] = {
   timestamps: false // true by default
 }
-if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+var sequelize = new Sequelize(config.database, config.username, config.password, config);
+
 
 const Player = PlayerModel(sequelize, Sequelize)
 const Drawing = DrawingModel(sequelize, Sequelize)
