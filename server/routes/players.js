@@ -6,7 +6,9 @@ const router = express.Router()
 
 // GET ALL
 router.get('', (req, res) => {
-    Player.findAll().then(players => res.json(players))
+    Player.findAll().then(players => {
+        res.set('X-Total-Count', players.length)
+        res.json(players)})
 })
 //INSERT
 router.post('', (req, res) => {

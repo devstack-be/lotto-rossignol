@@ -5,7 +5,10 @@ const router = express.Router()
 
 // GET ALL
 router.get('', (req, res) => {
-    Drawing.findAll().then(drawings => res.json(drawings))
+    Drawing.findAll().then(drawings => {
+        res.set('X-Total-Count', drawings.length)
+        res.json(drawings)
+    })
 })
 //INSERT
 router.post('', (req, res) => {
