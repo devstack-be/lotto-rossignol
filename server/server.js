@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser'
 import express from 'express'
 import path from 'path'
+
 import routePlayers from './routes/players'
 import routeDrawings from './routes/drawings'
 
@@ -18,6 +19,7 @@ app.use('/api/drawings', routeDrawings)
 // any routes not picked up by the server api will be handled by the react router
 app.use('/*', staticFiles)
 
+// Start App
 app.set('port', (process.env.PORT || 3001))
 app.listen(app.get('port'), () => {
   console.log(`Listening on ${app.get('port')}`)

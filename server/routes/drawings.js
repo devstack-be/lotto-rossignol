@@ -1,27 +1,11 @@
 import express from 'express'
 import pool from '../connection'
-
+import { Drawing } from '../sequelize'
 const router = express.Router()
 
 // GET ALL
 router.get('', (req, res) => {
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.log(err)
-            return
-        }
-
-        // Use the connection
-        connection.query('SELECT * FROM drawings', (error, results, fields) => {
-            connection.release()
-            // Handle error after the release.
-            if (error) throw error
-
-            res.set('X-Total-Count', results.length)
-            return res.json(results)
-            // Don't use the connection here, it has been returned to the pool.
-        })
-    })
+    Drawing.findAll().then(drawings => res.json(drawings))
 })
 //INSERT
 router.post('', (req, res) => {
