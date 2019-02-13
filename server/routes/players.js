@@ -4,14 +4,19 @@ const router = express.Router()
 
 // GET ALL
 router.get('', (req, res) => {
-    var limitSearch = parseInt(req.query._end - req.query._start)
-    var offsetSearch = parseInt(req.query._start)
-    Player.findAndCountAll({
-        offset: offsetSearch, limit: limitSearch,
-        order: [
-            [req.query._sort,req.query._order]
-            ]
-        }).then(players => {
+    let filters = {}
+    if(Object.entries(req.query).length !== 0 && req.query.constructor === Object) {
+        var limitSearch = parseInt(req.query._end - req.query._start)
+        var offsetSearch = parseInt(req.query._start)
+    
+        filters = {
+            offset: offsetSearch, limit: limitSearch,
+            order: [
+                [req.query._sort,req.query._order]
+                ]
+        }
+    }
+    Player.findAndCountAll(filters).then(players => {
         res.set('X-Total-Count', players.count)
         res.json(players.rows)
     })
