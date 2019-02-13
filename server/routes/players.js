@@ -1,106 +1,52 @@
 import express from 'express'
-import pool from '../connection'
 import { Player } from '../sequelize'
-
 const router = express.Router()
 
 // GET ALL
 router.get('', (req, res) => {
-    Player.findAll().then(players => {
-        res.set('X-Total-Count', players.length)
-        res.json(players)})
+    var limitSearch = parseInt(req.query._end - req.query._start)
+    var offsetSearch = parseInt(req.query._start)
+    Player.findAndCountAll({
+        offset: offsetSearch, limit: limitSearch,
+        order: [
+            [req.query._sort,req.query._order]
+            ]
+        }).then(players => {
+        res.set('X-Total-Count', players.count)
+        res.json(players.rows)
+    })
 })
 //INSERT
 router.post('', (req, res) => {
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.log(err)
-            return
-        }
-
-        let data = [[req.body.name, req.body.numbers]];
-        // Use the connection
-        connection.query("INSERT INTO players (name,numbers) VALUES ?", [data], (error, results, fields) => {
-            // Handle error after the release.
-            if (error) throw error
-            connection.query('SELECT * FROM players WHERE id = ' + results.insertId, (error, results, fields) => {
-                // When done with the connection, release it.
-                connection.release()
-                // Handle error after the release.
-                if (error) throw error
-                return res.json(results[0])
-                // Don't use the connection here, it has been returned to the pool.
-            })
-        })
-    })
+    Player.create({
+        name: req.body.name,
+        numbers: req.body.numbers
+    }).then(player => res.json(player))
 })
 // DELETE
 router.delete('/:id', (req, res) => {
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.log(err)
-            return
+    Player.destroy({
+        where: {
+          id: req.params.id
         }
-        // Use the connection
-        connection.query('DELETE FROM players WHERE id = ' + req.params.id, (error, results, fields) => {
-            // When done with the connection, release it.
-            connection.release()
-
-            // Handle error after the release.
-            if (error) throw error
-
-            return res.json(results)
-            // Don't use the connection here, it has been returned to the pool.
-        })
-    })
+    }).then(player => res.json(player))
 })
 //GET ONE
 router.get('/:id', (req, res) => {
-    pool.getConnection( (err, connection) => {
-        if (err) {
-            console.log(err)
-            return
-        }
-        // Use the connection
-        connection.query('SELECT * FROM players WHERE id = ' + req.params.id, (error, results, fields) => {
-            // When done with the connection, release it.
-            connection.release()
-
-            // Handle error after the release.
-            if (error) throw error
-            return res.json(results[0])
-            // Don't use the connection here, it has been returned to the pool.
-        })
+    Player.findById(req.params.id).then(player => {
+        res.json(player) 
     })
 })
 //UPDATE
 router.put('/:id', (req, res) => {
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.log(err)
-            return
-        } // not connected!
-        let sql = `UPDATE players
-             SET name = ?, numbers = ?
-             WHERE id = ?`;
-
-        let data = [req.body.name, req.body.numbers, req.params.id];
-        // Use the connection
-        connection.query(sql, data, (error, results, fields) => {
-            // Handle error after the release.
-            if (error) throw error
-            connection.query('SELECT * FROM players WHERE id = ' + req.params.id, (error, results, fields) => {
-                // When done with the connection, release it.
-                connection.release()
-
-                // Handle error after the release.
-                if (error) throw error
-                return res.json(results[0])
-                // Don't use the connection here, it has been returned to the pool.
-            })
-            // Don't use the connection here, it has been returned to the pool.
-        })
-    })
+    Player.update({
+        name: req.body.name,
+        numbers: req.body.numbers
+      }, {
+        where: {
+          id: req.params.id
+        }
+    }).then(Player.findById(req.params.id).then(player => res.json(player)))
 })
 
 export default router

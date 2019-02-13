@@ -5,8 +5,8 @@ import { Badge } from '@material-ui/core'
 const PlayerList = props => (
     <List {...props} title="Joueurs" perPage={25}>
         <Datagrid rowClick="edit">
-            <TextField source="id" sortable={false}/>
-            <TextField source="name" label="Nom"  sortable={false}/>
+            <TextField source="id"/>
+            <TextField source="name" label="Nom" />
             <NumbersField source="numbers"  sortable={false}/>
             <EditButton />
         </Datagrid>

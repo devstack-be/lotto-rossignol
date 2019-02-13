@@ -5,8 +5,8 @@ import { Badge } from '@material-ui/core'
 const DrawingList = props => (
     <List {...props} title="Tirages" perPage={25}>
         <Datagrid rowClick="edit">
-            <TextField source="id" sortable={false}/>
-            <DateField source="date" label="Date" sortable={false}/>
+            <TextField source="id"/>
+            <DateField source="date" label="Date"/>
             <NumbersField source="numbers"  sortable={false}/>
             <EditButton />
         </Datagrid>
