@@ -3,7 +3,7 @@ import { List, Datagrid, TextField, EditButton } from 'react-admin'
 import { Badge } from '@material-ui/core'
 
 const PlayerList = props => (
-    <List {...props} title="Joueurs" perPage={25}>
+    <List {...props} title="Joueurs" perPage={25} sort={{ field: 'id', order: 'ASC' }}>
         <Datagrid rowClick="edit">
             <TextField source="id"/>
             <TextField source="name" label="Nom" />

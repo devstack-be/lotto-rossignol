@@ -3,7 +3,7 @@ import { List, Datagrid, TextField, DateField, EditButton } from 'react-admin'
 import { Badge } from '@material-ui/core'
 
 const DrawingList = props => (
-    <List {...props} title="Tirages" perPage={25}>
+    <List {...props} title="Tirages" perPage={25} sort={{ field: 'id', order: 'ASC' }}>
         <Datagrid rowClick="edit">
             <TextField source="id"/>
             <DateField source="date" label="Date"/>
