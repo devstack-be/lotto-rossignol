@@ -7,7 +7,7 @@ var config = require(__dirname + '/config/config.js')[env]
 var sequelize
 
 config['define'] = {
-  timestamps: false
+  timestamps: false // true by default
 }
 var sequelize = new Sequelize(config.database, config.username, config.password, config);
 
