@@ -22,7 +22,7 @@ class PlayerList extends Component {
     }
     render() {
         const data = this.props.players
-        const {result, bestsPlayersATM} = this.props
+        const {result, bestsPlayersATM, drawings} = this.props
         const columns = [
             {
             dataField: 'id',
@@ -66,9 +66,14 @@ class PlayerList extends Component {
                             <WinPlayers best={result.players}/>
                         </Alert> 
                     )}
-                    {!result.win && (
+                    {!result.win && drawings.length > 0 && (
                         <Alert variant="primary" dismissible className="text-center mt-2">                 
                             <BestPlayers best={bestsPlayersATM}/>
+                        </Alert>               
+                    )}
+                    {drawings.length == 0 && (
+                        <Alert variant="info" dismissible className="text-center mt-2">                 
+                            <p><strong>Le lotto n'a pas encore débuté !</strong></p>
                         </Alert>               
                     )}
                     <BootstrapTable bootstrap4 keyField='id' data={data} columns={columns}
